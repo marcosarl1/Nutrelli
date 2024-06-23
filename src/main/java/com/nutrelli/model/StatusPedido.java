@@ -8,7 +8,7 @@ public enum StatusPedido {
     FINALIZADO("Finalizado"),
     CANCELADO("Cancelado");
 
-    private final String descricao;
+    private String descricao;
 
     StatusPedido(String descricao) {
         this.descricao = descricao;
@@ -25,5 +25,10 @@ public enum StatusPedido {
             }
         }
         throw new IllegalArgumentException("StatusPedido não encontrado para a descrição: " + descricao);
+    }
+
+    @Override
+    public String toString() {
+        return this.descricao = descricao;
     }
 }

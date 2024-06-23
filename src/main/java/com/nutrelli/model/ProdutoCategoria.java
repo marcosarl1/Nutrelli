@@ -25,4 +25,15 @@ public class ProdutoCategoria {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        ProdutoCategoria pc = (ProdutoCategoria) obj;
+        return this.id == pc.getId();
+    }
 }

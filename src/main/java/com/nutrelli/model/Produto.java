@@ -13,9 +13,25 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private ProdutoCategoria categoria;
-    private boolean disponibilidade;
+    private boolean disponibilidade = true;
     @Lob
     private byte[] imagem;
+
+    public Produto(String nome, double preco, ProdutoCategoria categoria) {
+        this.nome = nome;
+        this.preco = preco;
+        this.categoria = categoria;
+    }
+
+    public Produto(int id, String nome, double preco, ProdutoCategoria categoria, boolean disponibilidade) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+        this.categoria = categoria;
+        this.disponibilidade = disponibilidade;
+    }
+
+    public Produto(){}
 
     public byte[] getImagem() {
         return imagem;

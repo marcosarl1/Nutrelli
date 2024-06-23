@@ -76,7 +76,8 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
             switch (obj) {
                 case Produto produto ->
                     tblModel.addRow(new Object[]{
-                        false, produto.getId(), produto.getNome(), String.format("R$ %.2f", produto.getPreco()), produto.getCategoria().getNome(), produto.isDisponibilidade()});
+                        false, produto.getId(), produto.getNome(), String.format("R$ %.2f", produto.getPreco()), produto.getCategoria().getNome(), 
+                        produto.isDisponibilidade() ? "Disponível" : "Indisponível"});
                 case Pedido pedido ->
                     tblModel.addRow(new Object[]{
                         false, pedido.getId(), pedido.getCliente().getNome(), pedido.listaProdutosPedidos(), pedido.getDataPedido(), pedido.getStatusPedido().getDescricao(), String.format("R$ %.2f", pedido.calcularValorTotal()), pedido.getTipoPagamento().getNome()});
@@ -407,12 +408,14 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
             try {
                 for (int index : selectedIndex) {
                     int id = (int) tblProdutos.getValueAt(index, 1);
-
+                    ProdutoDAO produtoDAO = new ProdutoDAO();
+                    produtoDAO.deleteProduto(id);
                 }
+                displaySuccess("Produto(s) excluído(s) com sucesso!");
+                loadAllProdutos(); 
             } catch (Exception e) {
-                displayError("Erro ao excluir produto: " + e.getMessage());
+                displayError("Erro ao excluir produto, tente novamente.");
             }
-
         }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
@@ -430,6 +433,7 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         int selected = selectedIndex[0];
         int id = (int) tblProdutos.getValueAt(selected, 1);
         EditarProduto editarProduto = new EditarProduto(this, id);
+        editarProduto.loadProduto(id);
         editarProduto.setVisible(true);
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -448,19 +452,39 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         int id = (int) tblProdutos.getValueAt(selected, 1);
 
         EditarPedido editarPedido = new EditarPedido(this, id);
+        editarPedido.loadPedido(id);
         editarPedido.setVisible(true);
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void txtSearchProdutosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchProdutosCaretUpdate
-        search();
+        String filter = txtSearchProdutos.getText().trim();
+        try {
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            List<Produto> produtos = produtoDAO.getProduto(filter);
+            updateTbl(tblProdutos, produtos);
+        } catch (Exception e) {
+            displayError("Nenhum produto encontrado");
+        }
     }//GEN-LAST:event_txtSearchProdutosCaretUpdate
 
     private void txtSearchPedidosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchPedidosCaretUpdate
-        search();
+        String filter = txtSearchPedidos.getText().trim();
+        try {
+            PedidoDAO pedidoDAO = new PedidoDAO();
+            List<Pedido> pedidos = pedidoDAO.getPedido(filter);
+            updateTbl(tblPedidos, pedidos);
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_txtSearchPedidosCaretUpdate
 
     private void txtSearchClientesCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchClientesCaretUpdate
-        search();
+        String filter = txtSearchClientes.getText().trim();
+        try {
+            ClienteDAO clienteDAO = new ClienteDAO();
+            List<Cliente> clientes = clienteDAO.getCliente(filter);
+            updateTbl(tblClientes, clientes);
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_txtSearchClientesCaretUpdate
 
     private int[] getSelectedRowIndex(javax.swing.JTable table) {
@@ -481,7 +505,7 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         return getSelectedRowIndex(tblPedidos);
     }
 
-    private void loadAllProdutos() {
+    protected void loadAllProdutos() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         try {
             List<Produto> produtos = produtoDAO.getProduto("");
@@ -490,13 +514,10 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         }
     }
 
-    private void loadAllPedidos() {
+    protected void loadAllPedidos() {
         PedidoDAO pedidoDAO = new PedidoDAO();
         try {
-            List<Pedido> pedidos = pedidoDAO.getPedido();
-            for (Pedido p : pedidos) {
-                System.out.println("PEDIDOS" + p.listaProdutosPedidos());
-            }
+            List<Pedido> pedidos = pedidoDAO.getPedido("");
             updateTbl(tblPedidos, pedidos);
         } catch (Exception e) {
         }
@@ -509,10 +530,6 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
             updateTbl(tblClientes, clientes);
         } catch (Exception e) {
         }
-    }
-
-    private void search() {
-
     }
 
 

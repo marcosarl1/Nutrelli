@@ -96,11 +96,6 @@ public class Pedido {
         return this.valorTotal = valorTotal;
     }
 
-    @Override
-    public String toString() {
-        return produtosPedidos.toString();
-    }
-
     public String listaProdutosPedidos() {
         StringBuilder sb = new StringBuilder();
         if (produtosPedidos != null && !produtosPedidos.isEmpty()) {

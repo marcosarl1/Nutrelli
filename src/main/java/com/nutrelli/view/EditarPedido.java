@@ -1,15 +1,21 @@
 package com.nutrelli.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.nutrelli.dao.PedidoDAO;
+import com.nutrelli.model.Pedido;
+import com.nutrelli.model.StatusPedido;
 
 public class EditarPedido extends javax.swing.JDialog implements DisplayPopups {
-    
+
     private final int id;
+    private final Dashboard dashboard;
 
     public EditarPedido(Dashboard dashboard, int id) {
         super(dashboard, "Editar pedido", true);
         initComponents();
         this.id = id;
+        this.dashboard = dashboard;
+        loadCategoria();
         init();
     }
 
@@ -31,7 +37,7 @@ public class EditarPedido extends javax.swing.JDialog implements DisplayPopups {
         lblStatus = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
-        cmbStatus = new javax.swing.JComboBox<>();
+        cmbStatus = new javax.swing.JComboBox();
         txtData = new javax.swing.JTextField();
         lblData = new javax.swing.JLabel();
         lblValorTotal1 = new javax.swing.JLabel();
@@ -77,7 +83,6 @@ public class EditarPedido extends javax.swing.JDialog implements DisplayPopups {
         });
 
         cmbStatus.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendente", "Em preparo", "Em entrega", "Entregue", "Finalizado", "Cancelado" }));
 
         txtData.setEditable(false);
         txtData.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
@@ -136,7 +141,7 @@ public class EditarPedido extends javax.swing.JDialog implements DisplayPopups {
                 .addGap(18, 18, 18)
                 .addComponent(lblProdutos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+                .addComponent(txtProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblValorTotal1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -149,7 +154,7 @@ public class EditarPedido extends javax.swing.JDialog implements DisplayPopups {
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -164,8 +169,8 @@ public class EditarPedido extends javax.swing.JDialog implements DisplayPopups {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(55, Short.MAX_VALUE)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60))
         );
 
@@ -174,27 +179,58 @@ public class EditarPedido extends javax.swing.JDialog implements DisplayPopups {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        txtCliente.setText("");
-        txtValorTotal.setText("");
-        cmbStatus.setSelectedIndex(-1);
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        String status = (String) cmbStatus.getSelectedItem();
+        String statusDescricao = (String) cmbStatus.getSelectedItem();
+        StatusPedido status = StatusPedido.fromDescricao(statusDescricao);
 
-        if (status.isEmpty()) {
+        if (status == null) {
             displayWarning("Escolha o status do pedido.");
             return;
         }
-        
-        
+
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        try {
+            Pedido pedido = pedidoDAO.getPedidoById(id);
+            pedido.setStatusPedido(status);
+            pedidoDAO.editPedido(pedido);
+            displaySuccess("Status do pedido alterado com sucesso!");
+            dashboard.loadAllPedidos();
+            dispose();
+        } catch (Exception e) {
+            displayError("Erro alterar status do pedido, tente novamente.");
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    protected void loadPedido(int id) {
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        try {
+            Pedido pedido = pedidoDAO.getPedidoById(id);
+            txtCliente.setText(pedido.getCliente().getNome());
+            txtData.setText(String.valueOf(pedido.getDataPedido()));
+            txtProdutos.setText(pedido.listaProdutosPedidos());
+            txtValorTotal.setText(String.valueOf(pedido.calcularValorTotal()));
+            cmbStatus.setSelectedItem(pedido.getStatusPedido().getDescricao());
+        } catch (Exception e) {
+            e.printStackTrace();
+            displayError("Erro ao carregar pedido, tente novamente.");
+        }
+    }
+
+    private void loadCategoria() {
+        cmbStatus.removeAllItems();
+        for (StatusPedido status : StatusPedido.values()) {
+            cmbStatus.addItem(status.getDescricao());
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JComboBox<String> cmbStatus;
+    private javax.swing.JComboBox cmbStatus;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblProdutos;

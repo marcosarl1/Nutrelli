@@ -1,16 +1,24 @@
 package com.nutrelli.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.nutrelli.dao.ProdutoCategoriaDAO;
+import com.nutrelli.dao.ProdutoDAO;
+import com.nutrelli.model.Produto;
+import com.nutrelli.model.ProdutoCategoria;
+import java.util.List;
 
 public class EditarProduto extends javax.swing.JDialog implements DisplayPopups {
-    
+
     private final int id;
+    private final Dashboard dashboard;
 
     public EditarProduto(Dashboard dashboard, int id) {
         super(dashboard, "Editar produto", true);
         initComponents();
         this.id = id;
+        this.dashboard = dashboard;
         init();
+        loadAllCategorias();
     }
 
     private void init() {
@@ -79,7 +87,6 @@ public class EditarProduto extends javax.swing.JDialog implements DisplayPopups 
         chkDisponivel.setText("Disponível");
 
         cmbCategoria.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bolo", "Pães", "Salgados", "Doces", "Biscoito", "Bebida" }));
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -161,26 +168,68 @@ public class EditarProduto extends javax.swing.JDialog implements DisplayPopups 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String nome = txtNome.getText().trim();
         String precoString = txtPreco.getText().trim().replace(",", ".");
-        String categoria = (String) cmbCategoria.getSelectedItem();
+        ProdutoCategoria categoria = (ProdutoCategoria) cmbCategoria.getSelectedItem();
+        boolean disponivel = chkDisponivel.isSelected();
 
-        if (nome.isEmpty() || precoString.isEmpty() || categoria.isEmpty()) {
+        if (nome.isEmpty() || precoString.isEmpty() || categoria == null) {
             displayWarning("Preencha todos os campos!");
             return;
         }
-        
+
+        Double preco;
         try {
-            Double preco = Double.parseDouble(precoString);
+            preco = Double.valueOf(precoString);
         } catch (NumberFormatException e) {
             displayWarning("Preço deve ser um número.");
+            return;
+        }  
+        
+        Produto produto = new Produto(id, nome, preco, categoria, disponivel);
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        try {
+            produtoDAO.editProduto(produto);
+            displaySuccess("Produto editado com sucesso!");
+            dashboard.loadAllProdutos();
+            dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+            displayError("Erro ao editar produto, tente novamente.");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    protected void loadProduto(int id) {
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        try {
+            Produto produto = produtoDAO.getProdutoById(id);
+
+            txtNome.setText(produto.getNome());
+            txtPreco.setText(String.valueOf(produto.getPreco()));
+            cmbCategoria.setSelectedItem(produto.getCategoria());
+            chkDisponivel.setSelected(produto.isDisponibilidade());
+        } catch (Exception e) {
+            displayError("Erro ao carregar produto, tente novamente.");
+            dispose();
+        }
+    }
+
+    private void loadAllCategorias() {
+        ProdutoCategoriaDAO produtoCategoriaDAO = new ProdutoCategoriaDAO();
+        try {
+            cmbCategoria.removeAllItems();
+            List<ProdutoCategoria> categorias = produtoCategoriaDAO.getProdutoCategoria();
+            for (ProdutoCategoria pc : categorias) {
+                cmbCategoria.addItem(pc);
+            }
+        } catch (Exception e) {
+            displayError("Erro ao carregar categorias, tente novamente.");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JCheckBox chkDisponivel;
-    private javax.swing.JComboBox<String> cmbCategoria;
+    private javax.swing.JComboBox<ProdutoCategoria> cmbCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblCategoria;
     private javax.swing.JLabel lblNome;

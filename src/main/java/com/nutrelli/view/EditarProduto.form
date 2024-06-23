@@ -188,18 +188,11 @@
               <Font name="Roboto" size="14" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
-                <StringItem index="0" value="Bolo"/>
-                <StringItem index="1" value="P&#xe3;es"/>
-                <StringItem index="2" value="Salgados"/>
-                <StringItem index="3" value="Doces"/>
-                <StringItem index="4" value="Biscoito"/>
-                <StringItem index="5" value="Bebida"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;ProdutoCategoria&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>
