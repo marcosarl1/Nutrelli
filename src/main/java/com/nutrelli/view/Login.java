@@ -1,15 +1,20 @@
 package com.nutrelli.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.nutrelli.dao.ClienteDAO;
+import com.nutrelli.dao.FuncionarioDAO;
+import com.nutrelli.model.Cliente;
+import com.nutrelli.model.Funcionario;
+import com.nutrelli.util.Crypto;
 
-public class Login extends javax.swing.JFrame {
+public class Login extends javax.swing.JFrame implements DisplayPopups {
 
     public Login() {
         initComponents();
         init();
     }
-    
-    private void init(){
+
+    private void init() {
         txtSenha.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true");
         panelLogin.putClientProperty(FlatClientProperties.STYLE, ""
@@ -208,14 +213,37 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        new Dashboard().setVisible(true);
-        dispose();
+        String email = txtEmail.getText();
+        String password = new String(txtSenha.getPassword());
+
+        if (isFuncionario(email, password)) {
+            new Dashboard().setVisible(true);
+            dispose();
+        } else if (isCliente(email, password)) {
+            new Cardapio().setVisible(true);
+            dispose();
+        } else {
+            displayError("Usuário ou senha inválidos, tente novamente.");
+        }
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         new Registro().setVisible(true);
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
+    private boolean isFuncionario(String email, String password) {
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        Funcionario funcionario = funcionarioDAO.auth(email, Crypto.getMD5(password));
+
+        return funcionario != null;
+    }
+
+    private boolean isCliente(String emai, String password) {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        Cliente cliente = clienteDAO.auth(emai, Crypto.getMD5(password));
+
+        return cliente != null;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;

@@ -1,8 +1,12 @@
 package com.nutrelli.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.nutrelli.dao.ClienteDAO;
+import com.nutrelli.model.Cliente;
+import com.nutrelli.util.Crypto;
+import java.time.LocalDate;
 
-public class Registro extends javax.swing.JFrame implements DisplayPopups{
+public class Registro extends javax.swing.JFrame implements DisplayPopups {
 
     public Registro() {
         initComponents();
@@ -247,8 +251,18 @@ public class Registro extends javax.swing.JFrame implements DisplayPopups{
             displayWarning("Preencha todos os campos!");
             return;
         }
-        
-        
+
+        senha = Crypto.getMD5(senha);
+        Cliente cliente = new Cliente(nome, email, telefone, cpf, endereco, senha, LocalDate.now());
+        ClienteDAO clienteDAO = new ClienteDAO();
+        try {
+            clienteDAO.register(cliente);
+            displaySuccess("Cadastro realizado com sucesso!");
+            new Login().setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            displayError("Erro ao efetuar cadastro, tente novamente.");
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
 

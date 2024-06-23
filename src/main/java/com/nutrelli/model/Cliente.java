@@ -19,6 +19,18 @@ public class Cliente {
     @Column(name = "data_criacao", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDate dataCriacao;
 
+    public Cliente(String nome, String email, String telefone, String cpf, String endereco, String senha, LocalDate dataCriacao) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.cpf = cpf;
+        this.endereco = endereco;
+        this.senha = senha;
+        this.dataCriacao = dataCriacao;
+    }
+
+    public Cliente(){}
+
     public int getId() {
         return id;
     }
