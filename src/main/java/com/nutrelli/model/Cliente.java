@@ -1,6 +1,14 @@
 package com.nutrelli.model;
 
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+
+@Entity
 public class Cliente {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
     private String email;
@@ -8,6 +16,8 @@ public class Cliente {
     private String cpf;
     private String endereco;
     private String senha;
+    @Column(name = "data_criacao", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDate dataCriacao;
 
     public int getId() {
         return id;
@@ -63,5 +73,13 @@ public class Cliente {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 }

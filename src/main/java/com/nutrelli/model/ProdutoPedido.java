@@ -1,10 +1,23 @@
 package com.nutrelli.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "produto_pedido")
 public class ProdutoPedido {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pedido")
     private Pedido pedido;
+
+    @ManyToOne
+    @JoinColumn(name = "id_produto")
     private Produto produto;
+
     private int quantidade;
 
     public int getId() {

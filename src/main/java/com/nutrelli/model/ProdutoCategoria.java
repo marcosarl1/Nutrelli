@@ -3,8 +3,8 @@ package com.nutrelli.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tipo_pagamento")
-public class TipoPagamento {
+@Table(name = "produto_categoria")
+public class ProdutoCategoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

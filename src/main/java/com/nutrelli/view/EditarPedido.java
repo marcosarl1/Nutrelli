@@ -16,10 +16,6 @@ public class EditarPedido extends javax.swing.JDialog implements DisplayPopups {
     private void init() {
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "border:16,16,16,16, shade(@background,20%),,15");
-        txtCliente.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
-                + "Pão");
-        txtValorTotal.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
-                + "R$ 12,00");
     }
 
     @SuppressWarnings("unchecked")

@@ -1,43 +1,28 @@
 package com.nutrelli.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
     private double preco;
-    private String categoria;
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private ProdutoCategoria categoria;
     private boolean disponibilidade;
-    private String imagemUrl;
+    @Lob
+    private byte[] imagem;
 
-    public int getId() {
-        return id;
+    public byte[] getImagem() {
+        return imagem;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 
     public boolean isDisponibilidade() {
@@ -48,11 +33,35 @@ public class Produto {
         this.disponibilidade = disponibilidade;
     }
 
-    public String getImagemUrl() {
-        return imagemUrl;
+    public ProdutoCategoria getCategoria() {
+        return categoria;
     }
 
-    public void setImagemUrl(String imagemUrl) {
-        this.imagemUrl = imagemUrl;
+    public void setCategoria(ProdutoCategoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

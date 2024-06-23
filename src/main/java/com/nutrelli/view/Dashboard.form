@@ -233,6 +233,9 @@
                   <Font name="Roboto" size="14" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtSearchProdutosCaretUpdate"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -361,6 +364,9 @@
                   <Font name="Roboto" size="14" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtSearchPedidosCaretUpdate"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -462,6 +468,9 @@
               </SubComponents>
             </Container>
             <Component class="javax.swing.JTextField" name="txtSearchClientes">
+              <Events>
+                <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtSearchClientesCaretUpdate"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

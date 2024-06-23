@@ -12,6 +12,7 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
     public Dashboard() {
         initComponents();
         init();
+        populateTablesWithSampleData();
     }
 
     private void init() {
@@ -27,7 +28,6 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         styleTxtSearch(txtSearchProdutos);
         styleTxtSearch(txtSearchPedidos);
         styleTxtSearch(txtSearchClientes);
-        populateTablesWithSampleData();
     }
 
     private void styleTbl(javax.swing.JTable table) {
@@ -167,6 +167,11 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         });
 
         txtSearchProdutos.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtSearchProdutos.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchProdutosCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelProdutosLayout = new javax.swing.GroupLayout(panelProdutos);
         panelProdutos.setLayout(panelProdutosLayout);
@@ -241,6 +246,11 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         }
 
         txtSearchPedidos.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtSearchPedidos.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchPedidosCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelPedidosLayout = new javax.swing.GroupLayout(panelPedidos);
         panelPedidos.setLayout(panelPedidosLayout);
@@ -299,6 +309,12 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
             tblClientes.getColumnModel().getColumn(1).setMinWidth(0);
             tblClientes.getColumnModel().getColumn(1).setMaxWidth(0);
         }
+
+        txtSearchClientes.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchClientesCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelClientesLayout = new javax.swing.GroupLayout(panelClientes);
         panelClientes.setLayout(panelClientesLayout);
@@ -402,6 +418,18 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         editarPedido.setVisible(true);
     }//GEN-LAST:event_btnAlterarActionPerformed
 
+    private void txtSearchProdutosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchProdutosCaretUpdate
+        search();
+    }//GEN-LAST:event_txtSearchProdutosCaretUpdate
+
+    private void txtSearchPedidosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchPedidosCaretUpdate
+        search();
+    }//GEN-LAST:event_txtSearchPedidosCaretUpdate
+
+    private void txtSearchClientesCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchClientesCaretUpdate
+        search();
+    }//GEN-LAST:event_txtSearchClientesCaretUpdate
+
     private int[] getSelectedRowIndex(javax.swing.JTable table) {
         List<Integer> indexes = new ArrayList<>();
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -442,6 +470,10 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         clientesModel.addRow(new Object[]{false, 1001, "Cliente 1", "123.456.789-00", "cliente1@example.com", "(11) 1234-5678", "Endereço 1"});
         clientesModel.addRow(new Object[]{false, 1002, "Cliente 2", "987.654.321-00", "cliente2@example.com", "(11) 8765-4321", "Endereço 2"});
         clientesModel.addRow(new Object[]{false, 1003, "Cliente 3", "555.666.777-88", "cliente3@example.com", "(21) 5555-6666", "Endereço 3"});
+    }
+    
+    private void search() {
+        
     }
 
 

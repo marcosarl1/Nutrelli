@@ -1,16 +1,32 @@
 package com.nutrelli.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.List;
 
+@Entity
 public class Pedido {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
     private LocalDate dataPedido;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_pedido")
+    private StatusPedido statusPedido;
     private double valorTotal;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_pagamento")
     private TipoPagamento tipoPagamento;
+
+    @OneToMany(mappedBy = "pedido")
     private List<ProdutoPedido> produtosPedidos;
 
     public int getId() {
@@ -37,12 +53,12 @@ public class Pedido {
         this.dataPedido = dataPedido;
     }
 
-    public String getStatus() {
-        return status;
+    public StatusPedido getStatusPedido() {
+        return statusPedido;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusPedido(StatusPedido statusPedido) {
+        this.statusPedido = statusPedido;
     }
 
     public double getValorTotal() {
