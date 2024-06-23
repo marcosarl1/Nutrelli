@@ -24,6 +24,9 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         styleScrollPane(scrollPaneProdutos);
         styleScrollPane(scrollPanePedidos);
         styleScrollPane(scrollPaneClientes);
+        styleTxtSearch(txtSearchProdutos);
+        styleTxtSearch(txtSearchPedidos);
+        styleTxtSearch(txtSearchClientes);
         populateTablesWithSampleData();
     }
 
@@ -52,6 +55,11 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
                 + "thumbInsets:3,3,3,3;"
                 + "background:$Table.background");
     }
+    
+    private void styleTxtSearch(javax.swing.JTextField search) {
+        search.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Pesquisar");
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -66,13 +74,16 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         btnDeletar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnAdicionar = new javax.swing.JButton();
+        txtSearchProdutos = new javax.swing.JTextField();
         panelPedidos = new javax.swing.JPanel();
         btnAlterar = new javax.swing.JButton();
         scrollPanePedidos = new javax.swing.JScrollPane();
         tblPedidos = new javax.swing.JTable();
+        txtSearchPedidos = new javax.swing.JTextField();
         panelClientes = new javax.swing.JPanel();
         scrollPaneClientes = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
+        txtSearchClientes = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nutrelli Funcionário");
@@ -155,13 +166,16 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
             }
         });
 
+        txtSearchProdutos.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout panelProdutosLayout = new javax.swing.GroupLayout(panelProdutos);
         panelProdutos.setLayout(panelProdutosLayout);
         panelProdutosLayout.setHorizontalGroup(
             panelProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(scrollPaneProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelProdutosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelProdutosLayout.createSequentialGroup()
+                .addComponent(txtSearchProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,9 +190,10 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
                 .addGroup(panelProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearchProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addComponent(scrollPaneProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 879, Short.MAX_VALUE))
+                .addComponent(scrollPaneProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE))
         );
 
         tbbdPane.addTab("Produtos", panelProdutos);
@@ -225,12 +240,15 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
             tblPedidos.getColumnModel().getColumn(1).setMaxWidth(0);
         }
 
+        txtSearchPedidos.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout panelPedidosLayout = new javax.swing.GroupLayout(panelPedidos);
         panelPedidos.setLayout(panelPedidosLayout);
         panelPedidosLayout.setHorizontalGroup(
             panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPedidosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelPedidosLayout.createSequentialGroup()
+                .addComponent(txtSearchPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(scrollPanePedidos, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
@@ -239,9 +257,11 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
             panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPedidosLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearchPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addComponent(scrollPanePedidos, javax.swing.GroupLayout.DEFAULT_SIZE, 879, Short.MAX_VALUE))
+                .addComponent(scrollPanePedidos, javax.swing.GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE))
         );
 
         tbbdPane.addTab("Pedidos", panelPedidos);
@@ -285,12 +305,17 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         panelClientesLayout.setHorizontalGroup(
             panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(scrollPaneClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
+            .addGroup(panelClientesLayout.createSequentialGroup()
+                .addComponent(txtSearchClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelClientesLayout.setVerticalGroup(
             panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelClientesLayout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(scrollPaneClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addComponent(txtSearchClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(scrollPaneClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 879, Short.MAX_VALUE))
         );
 
         tbbdPane.addTab("Clientes", panelClientes);
@@ -308,7 +333,7 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tbbdPane)
                 .addContainerGap())
@@ -355,7 +380,8 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
 
         int selected = selectedIndex[0];
         int id = (int) tblProdutos.getValueAt(selected, 1);
-
+        EditarProduto editarProduto = new EditarProduto(this, id);
+        editarProduto.setVisible(true);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
@@ -371,6 +397,9 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
 
         int selected = selectedIndex[0];
         int id = (int) tblProdutos.getValueAt(selected, 1);
+        
+        EditarPedido editarPedido = new EditarPedido(this, id);
+        editarPedido.setVisible(true);
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private int[] getSelectedRowIndex(javax.swing.JTable table) {
@@ -433,5 +462,8 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
     private javax.swing.JTable tblClientes;
     private javax.swing.JTable tblPedidos;
     private javax.swing.JTable tblProdutos;
+    private javax.swing.JTextField txtSearchClientes;
+    private javax.swing.JTextField txtSearchPedidos;
+    private javax.swing.JTextField txtSearchProdutos;
     // End of variables declaration//GEN-END:variables
 }

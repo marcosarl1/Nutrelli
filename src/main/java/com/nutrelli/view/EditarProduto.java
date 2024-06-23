@@ -2,11 +2,14 @@ package com.nutrelli.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-public class AdicionarProduto extends javax.swing.JDialog implements DisplayPopups {
+public class EditarProduto extends javax.swing.JDialog implements DisplayPopups {
+    
+    private final int id;
 
-    public AdicionarProduto(Dashboard dashboard) {
-        super(dashboard, "Adicionar novo produto", true);
+    public EditarProduto(Dashboard dashboard, int id) {
+        super(dashboard, "Editar produto", true);
         initComponents();
+        this.id = id;
         init();
     }
 
@@ -32,13 +35,14 @@ public class AdicionarProduto extends javax.swing.JDialog implements DisplayPopu
         lblCategoria = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
+        chkDisponivel = new javax.swing.JCheckBox();
         cmbCategoria = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Roboto", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cadastrar novo produto");
+        jLabel1.setText("Editar produto");
 
         lblNome.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblNome.setLabelFor(txtNome);
@@ -71,6 +75,9 @@ public class AdicionarProduto extends javax.swing.JDialog implements DisplayPopu
             }
         });
 
+        chkDisponivel.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        chkDisponivel.setText("Disponível");
+
         cmbCategoria.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bolo", "Pães", "Salgados", "Doces", "Biscoito", "Bebida" }));
 
@@ -88,6 +95,7 @@ public class AdicionarProduto extends javax.swing.JDialog implements DisplayPopu
             .addGroup(panelLayout.createSequentialGroup()
                 .addGap(115, 115, 115)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(chkDisponivel)
                     .addComponent(lblNome)
                     .addComponent(txtNome)
                     .addComponent(lblPreco)
@@ -113,7 +121,9 @@ public class AdicionarProduto extends javax.swing.JDialog implements DisplayPopu
                 .addComponent(lblCategoria)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(chkDisponivel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -145,6 +155,7 @@ public class AdicionarProduto extends javax.swing.JDialog implements DisplayPopu
         txtNome.setText("");
         txtPreco.setText("");
         cmbCategoria.setSelectedIndex(-1);
+        chkDisponivel.setSelected(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -168,6 +179,7 @@ public class AdicionarProduto extends javax.swing.JDialog implements DisplayPopu
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JCheckBox chkDisponivel;
     private javax.swing.JComboBox<String> cmbCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblCategoria;

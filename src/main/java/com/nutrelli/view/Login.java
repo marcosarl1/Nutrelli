@@ -14,6 +14,10 @@ public class Login extends javax.swing.JFrame {
                 + "showRevealButton:true");
         panelLogin.putClientProperty(FlatClientProperties.STYLE, ""
                 + "border:16,16,16,16, shade(@background,20%),,15");
+        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Insira seu e-mail");
+        txtSenha.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Insira sua senha");
     }
 
     @SuppressWarnings("unchecked")
@@ -26,8 +30,8 @@ public class Login extends javax.swing.JFrame {
         panelLogin = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
         lblSubTitle = new javax.swing.JLabel();
-        lblUsuario = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
+        lblEmail = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
         lblSenha = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
         btnEntrar = new javax.swing.JButton();
@@ -71,15 +75,15 @@ public class Login extends javax.swing.JFrame {
         lblSubTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSubTitle.setText("Faça login");
 
-        lblUsuario.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        lblUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        lblUsuario.setLabelFor(txtUsuario);
-        lblUsuario.setText("Usuário:");
+        lblEmail.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        lblEmail.setForeground(new java.awt.Color(0, 0, 0));
+        lblEmail.setLabelFor(txtEmail);
+        lblEmail.setText("E-mail:");
 
-        txtUsuario.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
+        txtEmail.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsuarioActionPerformed(evt);
+                txtEmailActionPerformed(evt);
             }
         });
 
@@ -129,8 +133,8 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(panelLoginLayout.createSequentialGroup()
                         .addGap(201, 201, 201)
                         .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblUsuario)
-                            .addComponent(txtUsuario)
+                            .addComponent(lblEmail)
+                            .addComponent(txtEmail)
                             .addComponent(lblSenha)
                             .addComponent(txtSenha)
                             .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)))
@@ -149,9 +153,9 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSubTitle)
                 .addGap(53, 53, 53)
-                .addComponent(lblUsuario)
+                .addComponent(lblEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -199,9 +203,9 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsuarioActionPerformed
+    }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         new Dashboard().setVisible(true);
@@ -217,15 +221,15 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnEntrar;
     private javax.swing.JLabel lblCadastrar;
+    private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblSenha;
     private javax.swing.JLabel lblSubTitle;
     private javax.swing.JLabel lblTitle;
-    private javax.swing.JLabel lblUsuario;
     private javax.swing.JPanel panel;
     private javax.swing.JPanel panelLogin;
     private javax.swing.JPanel panelLogo;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtSenha;
-    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

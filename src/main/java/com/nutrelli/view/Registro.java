@@ -2,7 +2,7 @@ package com.nutrelli.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-public class Registro extends javax.swing.JFrame {
+public class Registro extends javax.swing.JFrame implements DisplayPopups{
 
     public Registro() {
         initComponents();
@@ -14,6 +14,18 @@ public class Registro extends javax.swing.JFrame {
                 + "showRevealButton:true");
         panelCadastro.putClientProperty(FlatClientProperties.STYLE, ""
                 + "border:16,16,16,16, shade(@background,20%),,15");
+        txtNome.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Insira o nome completo");
+        txtCpf.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Insira o CPF");
+        txtEndereco.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Insira o endereço completo");
+        txtTelefone.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Insira o telefone");
+        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Insira o e-mail");
+        txtSenha.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Insira a senha");
     }
 
     @SuppressWarnings("unchecked")
@@ -82,11 +94,6 @@ public class Registro extends javax.swing.JFrame {
         lblCpf.setText("CPF:");
 
         txtNome.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
-            }
-        });
 
         lblSenha.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblSenha.setForeground(new java.awt.Color(0, 0, 0));
@@ -106,32 +113,12 @@ public class Registro extends javax.swing.JFrame {
         });
 
         txtEmail.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
-            }
-        });
 
         txtCpf.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtCpf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCpfActionPerformed(evt);
-            }
-        });
 
         txtEndereco.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtEndereco.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEnderecoActionPerformed(evt);
-            }
-        });
 
         txtTelefone.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        txtTelefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTelefoneActionPerformed(evt);
-            }
-        });
 
         lblEndereco.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblEndereco.setForeground(new java.awt.Color(0, 0, 0));
@@ -248,29 +235,21 @@ public class Registro extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeActionPerformed
-
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        // TODO add your handling code here:
+        String nome = txtNome.getText().trim();
+        String cpf = txtCpf.getText().trim();
+        String endereco = txtEndereco.getText().trim();
+        String telefone = txtTelefone.getText().trim();
+        String email = txtEmail.getText().trim();
+        String senha = new String(txtSenha.getPassword());
+
+        if (nome.isEmpty() || cpf.isEmpty() || endereco.isEmpty() || telefone.isEmpty() || email.isEmpty() || senha.isEmpty()) {
+            displayWarning("Preencha todos os campos!");
+            return;
+        }
+        
+        
     }//GEN-LAST:event_btnCadastrarActionPerformed
-
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
-
-    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCpfActionPerformed
-
-    private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEnderecoActionPerformed
-
-    private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelefoneActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
