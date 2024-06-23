@@ -2,7 +2,7 @@ package com.nutrelli.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Cliente {
@@ -17,9 +17,9 @@ public class Cliente {
     private String endereco;
     private String senha;
     @Column(name = "data_criacao", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDate dataCriacao;
+    private LocalDateTime dataCriacao;
 
-    public Cliente(String nome, String email, String telefone, String cpf, String endereco, String senha, LocalDate dataCriacao) {
+    public Cliente(String nome, String email, String telefone, String cpf, String endereco, String senha, LocalDateTime dataCriacao) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
@@ -87,11 +87,11 @@ public class Cliente {
         this.senha = senha;
     }
 
-    public LocalDate getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 }

@@ -215,6 +215,19 @@ public class Login extends javax.swing.JFrame implements DisplayPopups {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         String email = txtEmail.getText();
         String password = new String(txtSenha.getPassword());
+        
+        if (email.isEmpty() || password.isEmpty()) {
+            displayWarning("Preencha todos os campos.");
+            return;
+        }
+        
+        if (email.isEmpty()) {
+            displayWarning("Preencha o e-mail.");
+        }
+        
+        if (password.isEmpty()) {
+            displayWarning("Preencha a senha.");
+        }
 
         if (isFuncionario(email, password)) {
             new Dashboard().setVisible(true);

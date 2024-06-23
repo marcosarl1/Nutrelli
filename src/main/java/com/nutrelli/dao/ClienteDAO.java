@@ -4,7 +4,10 @@ import com.nutrelli.model.Cliente;
 import com.nutrelli.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+
+import java.util.List;
 
 public class ClienteDAO {
 
@@ -32,6 +35,20 @@ public class ClienteDAO {
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
+        } finally {
+            JPAUtil.closeEntityManager();
+        }
+    }
+
+    public List<Cliente> getCliente(String filter) {
+        EntityManager entityManager = JPAUtil.getEntityManager();
+        try {
+            Query query = entityManager.createQuery(
+                    "SELECT c from Cliente c WHERE (:filter IS NULL OR c.nome LIKE :filter OR c.email LIKE :filter OR c.email LIKE :filter)");
+            query.setParameter("filter", filter.isEmpty() ? null : "%" + filter + "%");
+            return query.getResultList();
+        } catch (Exception e) {
+            return null;
         } finally {
             JPAUtil.closeEntityManager();
         }

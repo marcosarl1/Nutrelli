@@ -15,18 +15,21 @@ public class Pedido {
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
+    @Column(name = "data_pedido")
     private LocalDate dataPedido;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status_pedido")
     private StatusPedido statusPedido;
+
+    @Column(name = "valor_total")
     private double valorTotal;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_pagamento")
     private TipoPagamento tipoPagamento;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER)
     private List<ProdutoPedido> produtosPedidos;
 
     public int getId() {
@@ -85,11 +88,32 @@ public class Pedido {
         this.produtosPedidos = produtosPedidos;
     }
 
-    public void calcularValorTotal() {
+    public Double calcularValorTotal() {
         double valorTotal = 0;
         for (ProdutoPedido pp : produtosPedidos){
             valorTotal += pp.getProduto().getPreco() * pp.getQuantidade();
         }
-        this.valorTotal = valorTotal;
+        return this.valorTotal = valorTotal;
+    }
+
+    @Override
+    public String toString() {
+        return produtosPedidos.toString();
+    }
+
+    public String listaProdutosPedidos() {
+        StringBuilder sb = new StringBuilder();
+        if (produtosPedidos != null && !produtosPedidos.isEmpty()) {
+            for (int i = 0; i < produtosPedidos.size(); i++) {
+                ProdutoPedido pp = produtosPedidos.get(i);
+                sb.append(pp.getProduto().getNome());
+                sb.append(" (").append(pp.getQuantidade()).append(")");
+
+                if (i < produtosPedidos.size() - 1) {
+                    sb.append(", ");
+                }
+            }
+        }
+        return sb.toString();
     }
 }

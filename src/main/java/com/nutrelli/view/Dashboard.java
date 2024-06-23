@@ -1,6 +1,12 @@
 package com.nutrelli.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.nutrelli.dao.ClienteDAO;
+import com.nutrelli.dao.PedidoDAO;
+import com.nutrelli.dao.ProdutoDAO;
+import com.nutrelli.model.Cliente;
+import com.nutrelli.model.Pedido;
+import com.nutrelli.model.Produto;
 import com.nutrelli.view.table.ChkboxTbl;
 import com.nutrelli.view.table.TblHeader;
 import java.util.ArrayList;
@@ -12,7 +18,9 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
     public Dashboard() {
         initComponents();
         init();
-        populateTablesWithSampleData();
+        loadAllProdutos();
+        loadAllPedidos();
+        loadAllClientes();
     }
 
     private void init() {
@@ -55,10 +63,30 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
                 + "thumbInsets:3,3,3,3;"
                 + "background:$Table.background");
     }
-    
+
     private void styleTxtSearch(javax.swing.JTextField search) {
         search.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
                 + "Pesquisar");
+    }
+
+    private void updateTbl(javax.swing.JTable table, List<?> data) {
+        DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+        tblModel.setRowCount(0);
+        for (Object obj : data) {
+            switch (obj) {
+                case Produto produto ->
+                    tblModel.addRow(new Object[]{
+                        false, produto.getId(), produto.getNome(), String.format("R$ %.2f", produto.getPreco()), produto.getCategoria().getNome(), produto.isDisponibilidade()});
+                case Pedido pedido ->
+                    tblModel.addRow(new Object[]{
+                        false, pedido.getId(), pedido.getCliente().getNome(), pedido.listaProdutosPedidos(), pedido.getDataPedido(), pedido.getStatusPedido().getDescricao(), String.format("R$ %.2f", pedido.calcularValorTotal()), pedido.getTipoPagamento().getNome()});
+                case Cliente cliente ->
+                    tblModel.addRow(new Object[]{
+                        false, cliente.getId(), cliente.getNome(), cliente.getCpf(), cliente.getEmail(), cliente.getTelefone(), cliente.getEndereco()});
+                default -> {
+                }
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -213,13 +241,10 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
 
         tblPedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "#", "id", "Cliente", "Data", "Produtos", "Status", "Valor Total", "Tipo Pagamento"
+                "#", "Pedido", "Cliente", "Produtos", "Data", "Status", "Valor Total", "Tipo Pagamento"
             }
         ) {
             Class[] types = new Class [] {
@@ -240,9 +265,20 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         tblPedidos.getTableHeader().setReorderingAllowed(false);
         scrollPanePedidos.setViewportView(tblPedidos);
         if (tblPedidos.getColumnModel().getColumnCount() > 0) {
+            tblPedidos.getColumnModel().getColumn(0).setMinWidth(60);
             tblPedidos.getColumnModel().getColumn(0).setMaxWidth(60);
-            tblPedidos.getColumnModel().getColumn(1).setMinWidth(0);
-            tblPedidos.getColumnModel().getColumn(1).setMaxWidth(0);
+            tblPedidos.getColumnModel().getColumn(1).setMinWidth(55);
+            tblPedidos.getColumnModel().getColumn(1).setMaxWidth(55);
+            tblPedidos.getColumnModel().getColumn(2).setMinWidth(150);
+            tblPedidos.getColumnModel().getColumn(2).setMaxWidth(150);
+            tblPedidos.getColumnModel().getColumn(4).setMinWidth(90);
+            tblPedidos.getColumnModel().getColumn(4).setMaxWidth(90);
+            tblPedidos.getColumnModel().getColumn(5).setMinWidth(90);
+            tblPedidos.getColumnModel().getColumn(5).setMaxWidth(90);
+            tblPedidos.getColumnModel().getColumn(6).setMinWidth(80);
+            tblPedidos.getColumnModel().getColumn(6).setMaxWidth(80);
+            tblPedidos.getColumnModel().getColumn(7).setMinWidth(120);
+            tblPedidos.getColumnModel().getColumn(7).setMaxWidth(120);
         }
 
         txtSearchPedidos.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
@@ -278,10 +314,7 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "#", "id", "Nome", "CPF", "E-mail", "Telefone", "Endereço"
@@ -413,7 +446,7 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
 
         int selected = selectedIndex[0];
         int id = (int) tblProdutos.getValueAt(selected, 1);
-        
+
         EditarPedido editarPedido = new EditarPedido(this, id);
         editarPedido.setVisible(true);
     }//GEN-LAST:event_btnAlterarActionPerformed
@@ -448,32 +481,38 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         return getSelectedRowIndex(tblPedidos);
     }
 
-    private void populateTablesWithSampleData() {
-        // Sample data for Produtos table
-        DefaultTableModel produtosModel = (DefaultTableModel) tblProdutos.getModel();
-        produtosModel.setRowCount(0); // Clear existing rows
-        produtosModel.addRow(new Object[]{false, 1, "Produto A", "10.00", "Categoria 1", "Disponível"});
-        produtosModel.addRow(new Object[]{false, 2, "Produto B", "15.50", "Categoria 2", "Indisponível"});
-        produtosModel.addRow(new Object[]{false, 3, "Produto C", "7.75", "Categoria 1", "Disponível"});
-        produtosModel.addRow(new Object[]{false, 4, "Produto D", "12.00", "Categoria 3", "Disponível"});
-
-        // Sample data for Pedidos table
-        DefaultTableModel pedidosModel = (DefaultTableModel) tblPedidos.getModel();
-        pedidosModel.setRowCount(0); // Clear existing rows
-        pedidosModel.addRow(new Object[]{false, 101, "Cliente 1", "2024-01-01", "Produto A, Produto B", "Entregue", "25.50", "Cartão"});
-        pedidosModel.addRow(new Object[]{false, 102, "Cliente 2", "2024-01-02", "Produto C", "Pendente", "7.75", "Dinheiro"});
-        pedidosModel.addRow(new Object[]{false, 103, "Cliente 3", "2024-01-03", "Produto D, Produto A", "Cancelado", "22.00", "Cartão"});
-
-        // Sample data for Clientes table
-        DefaultTableModel clientesModel = (DefaultTableModel) tblClientes.getModel();
-        clientesModel.setRowCount(0); // Clear existing rows
-        clientesModel.addRow(new Object[]{false, 1001, "Cliente 1", "123.456.789-00", "cliente1@example.com", "(11) 1234-5678", "Endereço 1"});
-        clientesModel.addRow(new Object[]{false, 1002, "Cliente 2", "987.654.321-00", "cliente2@example.com", "(11) 8765-4321", "Endereço 2"});
-        clientesModel.addRow(new Object[]{false, 1003, "Cliente 3", "555.666.777-88", "cliente3@example.com", "(21) 5555-6666", "Endereço 3"});
+    private void loadAllProdutos() {
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        try {
+            List<Produto> produtos = produtoDAO.getProduto("");
+            updateTbl(tblProdutos, produtos);
+        } catch (Exception e) {
+        }
     }
-    
+
+    private void loadAllPedidos() {
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        try {
+            List<Pedido> pedidos = pedidoDAO.getPedido();
+            for (Pedido p : pedidos) {
+                System.out.println("PEDIDOS" + p.listaProdutosPedidos());
+            }
+            updateTbl(tblPedidos, pedidos);
+        } catch (Exception e) {
+        }
+    }
+
+    private void loadAllClientes() {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        try {
+            List<Cliente> clientes = clienteDAO.getCliente("");
+            updateTbl(tblClientes, clientes);
+        } catch (Exception e) {
+        }
+    }
+
     private void search() {
-        
+
     }
 
 

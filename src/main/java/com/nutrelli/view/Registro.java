@@ -4,7 +4,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.nutrelli.dao.ClienteDAO;
 import com.nutrelli.model.Cliente;
 import com.nutrelli.util.Crypto;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Registro extends javax.swing.JFrame implements DisplayPopups {
 
@@ -251,9 +251,19 @@ public class Registro extends javax.swing.JFrame implements DisplayPopups {
             displayWarning("Preencha todos os campos!");
             return;
         }
+        
+        if (!validateCPF(cpf)) {
+            displayWarning("CPF inválido!");
+            return;
+        }
+        
+        if (!validateEmail(email)) {
+            displayWarning("E-mail inválido!");
+            return;
+        }
 
         senha = Crypto.getMD5(senha);
-        Cliente cliente = new Cliente(nome, email, telefone, cpf, endereco, senha, LocalDate.now());
+        Cliente cliente = new Cliente(nome, email, telefone, cpf, endereco, senha, LocalDateTime.now());
         ClienteDAO clienteDAO = new ClienteDAO();
         try {
             clienteDAO.register(cliente);
@@ -265,6 +275,13 @@ public class Registro extends javax.swing.JFrame implements DisplayPopups {
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
+    private boolean validateCPF(String cpf) {
+        return cpf.matches("\\d{11}");
+    }
+    
+    private boolean validateEmail(String email) {
+        return email.matches("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
