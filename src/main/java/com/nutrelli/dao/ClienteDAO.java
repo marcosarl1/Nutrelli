@@ -3,8 +3,6 @@ package com.nutrelli.dao;
 import com.nutrelli.model.Cliente;
 import com.nutrelli.util.JPAUtil;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
@@ -18,8 +16,6 @@ public class ClienteDAO {
             query.setParameter("email", email);
             query.setParameter("password", password);
             return query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
         } catch (Exception e) {
             return null;
         } finally {
@@ -43,8 +39,8 @@ public class ClienteDAO {
     public List<Cliente> getCliente(String filter) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         try {
-            Query query = entityManager.createQuery(
-                    "SELECT c from Cliente c WHERE (:filter IS NULL OR c.nome LIKE :filter OR c.email LIKE :filter OR c.email LIKE :filter)");
+            TypedQuery<Cliente> query = entityManager.createQuery(
+                    "SELECT c from Cliente c WHERE (:filter IS NULL OR c.nome LIKE :filter OR c.email LIKE :filter OR c.email LIKE :filter)", Cliente.class);
             query.setParameter("filter", filter.isEmpty() ? null : "%" + filter + "%");
             return query.getResultList();
         } catch (Exception e) {
