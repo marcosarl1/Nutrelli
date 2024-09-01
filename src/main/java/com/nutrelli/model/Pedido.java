@@ -44,17 +44,11 @@ public class Pedido {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
 
     public LocalDate getDataPedido() {
         return dataPedido;
     }
 
-    public void setDataPedido(LocalDate dataPedido) {
-        this.dataPedido = dataPedido;
-    }
 
     public StatusPedido getStatusPedido() {
         return statusPedido;
@@ -64,32 +58,12 @@ public class Pedido {
         this.statusPedido = statusPedido;
     }
 
-    public double getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
     public TipoPagamento getTipoPagamento() {
         return tipoPagamento;
     }
 
-    public void setTipoPagamento(TipoPagamento tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
-    }
-
-    public List<ProdutoPedido> getProdutosPedidos() {
-        return produtosPedidos;
-    }
-
-    public void setProdutosPedidos(List<ProdutoPedido> produtosPedidos) {
-        this.produtosPedidos = produtosPedidos;
-    }
-
     public Double calcularValorTotal() {
-        double valorTotal = 0;
+        double valorTotal;
         valorTotal = produtosPedidos.stream().mapToDouble(pp -> pp.getProduto().getPreco() * pp.getQuantidade()).sum();
         return valorTotal;
     }

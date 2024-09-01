@@ -14,22 +14,21 @@ public class Registro extends javax.swing.JFrame implements DisplayPopups {
     }
 
     private void init() {
-        txtSenha.putClientProperty(FlatClientProperties.STYLE, ""
-                + "showRevealButton:true");
-        panelCadastro.putClientProperty(FlatClientProperties.STYLE, ""
-                + "border:16,16,16,16, shade(@background,20%),,15");
-        txtNome.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
-                + "Insira o nome completo");
-        txtCpf.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
-                + "Insira o CPF");
-        txtEndereco.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
-                + "Insira o endereço completo");
-        txtTelefone.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
-                + "Insira o telefone");
-        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
-                + "Insira o e-mail");
-        txtSenha.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
-                + "Insira a senha");
+        txtSenha.putClientProperty(FlatClientProperties.STYLE, "showRevealButton:true");
+
+        panelCadastro.putClientProperty(FlatClientProperties.STYLE, "border:16,16,16,16, shade(@background,20%),,15");
+
+        txtNome.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Insira o nome completo");
+
+        txtCpf.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Insira o CPF");
+
+        txtEndereco.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Insira o endereço completo");
+
+        txtTelefone.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Insira o telefone");
+
+        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Insira o e-mail");
+
+        txtSenha.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Insira a senha");
     }
 
     @SuppressWarnings("unchecked")
