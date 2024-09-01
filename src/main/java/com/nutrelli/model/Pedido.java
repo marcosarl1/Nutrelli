@@ -90,10 +90,8 @@ public class Pedido {
 
     public Double calcularValorTotal() {
         double valorTotal = 0;
-        for (ProdutoPedido pp : produtosPedidos){
-            valorTotal += pp.getProduto().getPreco() * pp.getQuantidade();
-        }
-        return this.valorTotal = valorTotal;
+        valorTotal = produtosPedidos.stream().mapToDouble(pp -> pp.getProduto().getPreco() * pp.getQuantidade()).sum();
+        return valorTotal;
     }
 
     public String listaProdutosPedidos() {
