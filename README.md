@@ -5,32 +5,6 @@
 
 Nutrelli é um sistema de gerenciamento de produtos, pedidos e clientes. Este projeto utiliza Java com JPA para persistência de dados e Swing para a interface gráfica.
 
-## Estrutura do Projeto
-
-O projeto está organizado da seguinte forma:
-
-```
-src/main/java/com/nutrelli/
-├── model/
-│   ├── Cliente.java
-│   ├── Produto.java
-│   └── ProdutoCategoria.java
-├── dao/
-│   ├── ClienteDAO.java
-│   ├── ClienteRepository.java
-│   ├── ProdutoDAO.java
-│   ├── ProdutoRepository.java
-│   └── ProdutoCategoriaDAO.java
-├── util/
-│   └── JPAUtil.java
-└── view/
-├── Dashboard.java
-├── EditarProduto.java
-├── EditarPedido.java
-├── Login.java
-└── UISettings.java
-```
-
 ## Requisitos
 
 - Java 11 ou superior
