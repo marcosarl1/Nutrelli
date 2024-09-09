@@ -9,11 +9,16 @@ import com.nutrelli.model.Pedido;
 import com.nutrelli.model.Produto;
 import com.nutrelli.view.table.ChkboxTbl;
 import com.nutrelli.view.table.TblHeader;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
 public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
+    private Timer searchTimer;
 
     public Dashboard() {
         initComponents();
@@ -24,9 +29,10 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
     }
 
     private void init() {
-        tbbdPane.putClientProperty(FlatClientProperties.STYLE, ""
-                + "tabArc:5;"
-                + "tabAreaAlignment:center;");
+        tbbdPane.putClientProperty(FlatClientProperties.STYLE, """
+                tabArc:5;
+                tabAreaAlignment:center;
+                """);
         styleTbl(tblProdutos);
         styleTbl(tblPedidos);
         styleTbl(tblClientes);
@@ -36,6 +42,9 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         styleTxtSearch(txtSearchProdutos);
         styleTxtSearch(txtSearchPedidos);
         styleTxtSearch(txtSearchClientes);
+
+        searchTimer = new Timer(200, e -> performSearch());
+        searchTimer.setRepeats(false);
     }
 
     private void styleTbl(javax.swing.JTable table) {
@@ -57,11 +66,13 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
     }
 
     private void styleScrollPane(javax.swing.JScrollPane scrollPane) {
-        scrollPane.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
-                + "trackArc:999;"
-                + "trackInsets:3,3,3,3;"
-                + "thumbInsets:3,3,3,3;"
-                + "background:$Table.background");
+        scrollPane.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, """
+                "trackArc:999;"
+                "trackInsets:3,3,3,3;"
+                "thumbInsets:3,3,3,3;"
+                "background:$Table.background"
+                """
+        );
     }
 
     private void styleTxtSearch(javax.swing.JTextField search) {
@@ -74,15 +85,12 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         tblModel.setRowCount(0);
         for (Object obj : data) {
             switch (obj) {
-                case Produto produto ->
-                    tblModel.addRow(new Object[]{
-                        false, produto.getId(), produto.getNome(), String.format("R$ %.2f", produto.getPreco()), produto.getCategoria().getNome(), 
+                case Produto produto -> tblModel.addRow(new Object[]{
+                        false, produto.getId(), produto.getNome(), String.format("R$ %.2f", produto.getPreco()), produto.getCategoria().getNome(),
                         produto.isDisponibilidade() ? "Disponível" : "Indisponível"});
-                case Pedido pedido ->
-                    tblModel.addRow(new Object[]{
+                case Pedido pedido -> tblModel.addRow(new Object[]{
                         false, pedido.getId(), pedido.getCliente().getNome(), pedido.listaProdutosPedidos(), pedido.getDataPedido(), pedido.getStatusPedido().getDescricao(), String.format("R$ %.2f", pedido.calcularValorTotal()), pedido.getTipoPagamento().getNome()});
-                case Cliente cliente ->
-                    tblModel.addRow(new Object[]{
+                case Cliente cliente -> tblModel.addRow(new Object[]{
                         false, cliente.getId(), cliente.getNome(), cliente.getCpf(), cliente.getEmail(), cliente.getTelefone(), cliente.getEndereco()});
                 default -> {
                 }
@@ -124,43 +132,43 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         javax.swing.GroupLayout panelLogoLayout = new javax.swing.GroupLayout(panelLogo);
         panelLogo.setLayout(panelLogoLayout);
         panelLogoLayout.setHorizontalGroup(
-            panelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLogoLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(lblLogo)
-                .addContainerGap(26, Short.MAX_VALUE))
+                panelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelLogoLayout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(lblLogo)
+                                .addContainerGap(26, Short.MAX_VALUE))
         );
         panelLogoLayout.setVerticalGroup(
-            panelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLogoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblLogo)
-                .addGap(345, 345, 345))
+                panelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLogoLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblLogo)
+                                .addGap(345, 345, 345))
         );
 
         tbbdPane.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         tblProdutos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][]{
 
-            },
-            new String [] {
-                "#", "id", "Nome", "Preço", "Categoria", "Disponibilidade"
-            }
+                },
+                new String[]{
+                        "#", "id", "Nome", "Preço", "Categoria", "Disponibilidade"
+                }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            Class[] types = new Class[]{
+                    java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false
+            boolean[] canEdit = new boolean[]{
+                    true, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         tblProdutos.getTableHeader().setReorderingAllowed(false);
@@ -205,29 +213,29 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         javax.swing.GroupLayout panelProdutosLayout = new javax.swing.GroupLayout(panelProdutos);
         panelProdutos.setLayout(panelProdutosLayout);
         panelProdutosLayout.setHorizontalGroup(
-            panelProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPaneProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
-            .addGroup(panelProdutosLayout.createSequentialGroup()
-                .addComponent(txtSearchProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                panelProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(scrollPaneProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
+                        .addGroup(panelProdutosLayout.createSequentialGroup()
+                                .addComponent(txtSearchProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
         panelProdutosLayout.setVerticalGroup(
-            panelProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelProdutosLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(panelProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSearchProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(scrollPaneProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE))
+                panelProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelProdutosLayout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(panelProdutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtSearchProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20)
+                                .addComponent(scrollPaneProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE))
         );
 
         tbbdPane.addTab("Produtos", panelProdutos);
@@ -241,26 +249,26 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         });
 
         tblPedidos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][]{
 
-            },
-            new String [] {
-                "#", "Pedido", "Cliente", "Produtos", "Data", "Status", "Valor Total", "Tipo Pagamento"
-            }
+                },
+                new String[]{
+                        "#", "Pedido", "Cliente", "Produtos", "Data", "Status", "Valor Total", "Tipo Pagamento"
+                }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            Class[] types = new Class[]{
+                    java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false, false
+            boolean[] canEdit = new boolean[]{
+                    true, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         tblPedidos.getTableHeader().setReorderingAllowed(false);
@@ -292,48 +300,48 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         javax.swing.GroupLayout panelPedidosLayout = new javax.swing.GroupLayout(panelPedidos);
         panelPedidos.setLayout(panelPedidosLayout);
         panelPedidosLayout.setHorizontalGroup(
-            panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPedidosLayout.createSequentialGroup()
-                .addComponent(txtSearchPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addComponent(scrollPanePedidos, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
+                panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelPedidosLayout.createSequentialGroup()
+                                .addComponent(txtSearchPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                        .addComponent(scrollPanePedidos, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
         );
         panelPedidosLayout.setVerticalGroup(
-            panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPedidosLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSearchPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(scrollPanePedidos, javax.swing.GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE))
+                panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelPedidosLayout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtSearchPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20)
+                                .addComponent(scrollPanePedidos, javax.swing.GroupLayout.DEFAULT_SIZE, 878, Short.MAX_VALUE))
         );
 
         tbbdPane.addTab("Pedidos", panelPedidos);
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][]{
 
-            },
-            new String [] {
-                "#", "id", "Nome", "CPF", "E-mail", "Telefone", "Endereço"
-            }
+                },
+                new String[]{
+                        "#", "id", "Nome", "CPF", "E-mail", "Telefone", "Endereço"
+                }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            Class[] types = new Class[]{
+                    java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false
+            boolean[] canEdit = new boolean[]{
+                    true, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         tblClientes.getTableHeader().setReorderingAllowed(false);
@@ -353,19 +361,19 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         javax.swing.GroupLayout panelClientesLayout = new javax.swing.GroupLayout(panelClientes);
         panelClientes.setLayout(panelClientesLayout);
         panelClientesLayout.setHorizontalGroup(
-            panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPaneClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
-            .addGroup(panelClientesLayout.createSequentialGroup()
-                .addComponent(txtSearchClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(scrollPaneClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE)
+                        .addGroup(panelClientesLayout.createSequentialGroup()
+                                .addComponent(txtSearchClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelClientesLayout.setVerticalGroup(
-            panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelClientesLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(txtSearchClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(scrollPaneClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 879, Short.MAX_VALUE))
+                panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelClientesLayout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(txtSearchClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(scrollPaneClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 879, Short.MAX_VALUE))
         );
 
         tbbdPane.addTab("Clientes", panelClientes);
@@ -373,20 +381,20 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tbbdPane)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(panelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tbbdPane)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tbbdPane)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(panelLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(tbbdPane)
+                                .addContainerGap())
         );
 
         setSize(new java.awt.Dimension(1440, 1024));
@@ -412,7 +420,7 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
                     produtoDAO.deleteProduto(id);
                 }
                 displaySuccess("Produto(s) excluído(s) com sucesso!");
-                loadAllProdutos(); 
+                loadAllProdutos();
             } catch (Exception e) {
                 displayError("Erro ao excluir produto, tente novamente.");
             }
@@ -457,35 +465,47 @@ public class Dashboard extends javax.swing.JFrame implements DisplayPopups {
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void txtSearchProdutosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchProdutosCaretUpdate
-        String filter = txtSearchProdutos.getText().trim();
-        try {
-            ProdutoDAO produtoDAO = new ProdutoDAO();
-            List<Produto> produtos = produtoDAO.getProduto(filter);
-            updateTbl(tblProdutos, produtos);
-        } catch (Exception e) {
-            displayError("Nenhum produto encontrado");
-        }
+        searchTimer.restart();
     }//GEN-LAST:event_txtSearchProdutosCaretUpdate
 
     private void txtSearchPedidosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchPedidosCaretUpdate
-        String filter = txtSearchPedidos.getText().trim();
-        try {
-            PedidoDAO pedidoDAO = new PedidoDAO();
-            List<Pedido> pedidos = pedidoDAO.getPedido(filter);
-            updateTbl(tblPedidos, pedidos);
-        } catch (Exception e) {
-        }
+        searchTimer.restart();
     }//GEN-LAST:event_txtSearchPedidosCaretUpdate
 
     private void txtSearchClientesCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchClientesCaretUpdate
-        String filter = txtSearchClientes.getText().trim();
+        searchTimer.restart();
+    }//GEN-LAST:event_txtSearchClientesCaretUpdate
+
+    private void performSearch() {
+        String filterProdutos = txtSearchProdutos.getText().trim();
+        String filterPedidos = txtSearchPedidos.getText().trim();
+        String filterClientes = txtSearchClientes.getText().trim();
+
+        try {
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            List<Produto> produtos = produtoDAO.getProduto(filterProdutos);
+            updateTbl(tblProdutos, produtos);
+        } catch (Exception e) {
+            displayError("Erro ao buscar produtos, tente novamente.");
+        }
+
+        try {
+            PedidoDAO pedidoDAO = new PedidoDAO();
+            List<Pedido> pedidos = pedidoDAO.getPedido(filterPedidos);
+            updateTbl(tblPedidos, pedidos);
+        } catch (Exception e) {
+            displayError("Erro ao buscar pedidos, tente novamente.");
+        }
+
         try {
             ClienteDAO clienteDAO = new ClienteDAO();
-            List<Cliente> clientes = clienteDAO.getCliente(filter);
+            List<Cliente> clientes = clienteDAO.getCliente(filterClientes);
             updateTbl(tblClientes, clientes);
         } catch (Exception e) {
+            displayError("Erro ao buscar pedidos, tente novamente.");
         }
-    }//GEN-LAST:event_txtSearchClientesCaretUpdate
+
+    }
 
     private int[] getSelectedRowIndex(javax.swing.JTable table) {
         List<Integer> indexes = new ArrayList<>();
