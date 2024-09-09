@@ -12,10 +12,9 @@ public class JPAUtil {
     public static EntityManager getEntityManager() {
         if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
             entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
-
-            if (entityManager == null || !entityManager.isOpen()) {
-                entityManager = entityManagerFactory.createEntityManager();
-            }
+        }
+        if (entityManager == null || !entityManager.isOpen()) {
+            entityManager = entityManagerFactory.createEntityManager();
         }
         return entityManager;
     }
@@ -23,6 +22,8 @@ public class JPAUtil {
     public static void closeEntityManager() {
         if (entityManager != null && entityManager.isOpen()) {
             entityManager.close();
+        }
+        if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
             entityManagerFactory.close();
         }
     }
